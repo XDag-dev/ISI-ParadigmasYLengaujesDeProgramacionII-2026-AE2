@@ -9,9 +9,9 @@ public class Proveedor extends Persona {
     private String cuit;
     private List<Producto> productos;
 
-    public Proveedor(String nombre, String domicilio, String dni, String telefono,
-                     CondicionIVA condicionIVA, String razonSocial, String cuit) {
-        super(nombre, domicilio, dni, telefono, condicionIVA);
+    public Proveedor(String razonSocial, String cuit, String domicilio, 
+                    String telefono, CondicionIVA condicionIVA) {
+       super(razonSocial, cuit, domicilio, telefono, condicionIVA);
         this.razonSocial = razonSocial;
         this.cuit = cuit;
         this.productos = new ArrayList<>();

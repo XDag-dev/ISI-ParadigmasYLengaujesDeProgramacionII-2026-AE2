@@ -32,4 +32,8 @@ public class Cliente extends Persona {
     public List<Factura> getHistorial() {
         return historial;
     }
+
+    public String getDni() {
+        return dni;
+    }
 }

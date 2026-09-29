@@ -36,6 +36,10 @@ public class Departamento {
         return responsable;
     }
 
+    public void setResponsable(Empleado responsable) {
+    this.responsable = responsable;
+    }
+
     public List<Empleado> getEmpleados() {
         return empleados;
     }

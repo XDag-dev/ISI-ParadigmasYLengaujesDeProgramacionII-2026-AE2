@@ -9,7 +9,7 @@ public abstract class Persona {
     
     private String nombre;
     private String domicilio;
-    private String dni;
+    protected String dni;
     private String telefono;
     private CondicionIVA CondicionIVA;
 
@@ -29,7 +29,7 @@ public abstract class Persona {
         return domicilio;
     }
 
-    public String getDNI() {
+    public String getDni() {
         return dni;
     }
 

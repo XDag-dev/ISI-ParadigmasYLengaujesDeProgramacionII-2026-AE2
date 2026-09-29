@@ -24,9 +24,7 @@ public class Factura {
     private LocalDate fechaVencimientoCAE;
     private String codigoQR;
 
-    public Factura(int puntoVenta, int numeroComprobante, TipoComprobante tipoComprobante,
-                   LocalDate fechaEmision, Cliente cliente, Empleado empleado,
-                   MetodoPago metodoPago, EstadoPago estadoPago) {
+    public Factura(int puntoVenta, int numeroComprobante, TipoComprobante tipoComprobante, LocalDate fechaEmision, Cliente cliente, Empleado empleado, MetodoPago metodoPago) {
         this.puntoVenta = puntoVenta;
         this.numeroComprobante = numeroComprobante;
         this.tipoComprobante = tipoComprobante;
@@ -34,8 +32,17 @@ public class Factura {
         this.cliente = cliente;
         this.empleado = empleado;
         this.metodoPago = metodoPago;
-        this.estadoPago = estadoPago;
         this.lineas = new ArrayList<>();
+    }
+
+    // Método para agregar la línea recibiendo un objeto LineaFactura
+    public void agregarLinea(LineaFactura linea) {
+        this.lineas.add(linea);
+    }
+
+    // Setter para el estado del pago
+    public void setEstadoPago(EstadoPago estadoPago) {
+        this.estadoPago = estadoPago;
     }
 
     public void agregarLinea(ItemFacturable item, int cantidad, double bonificacion) {
@@ -65,7 +72,7 @@ public class Factura {
         System.out.println("----------------------------------------------------------");
         System.out.println("CLIENTE / RECEPTOR:");
         System.out.println("  Nombre/Razón Social: " + cliente.getNombre());
-        System.out.println("  DNI/CUIT: " + cliente.getDNI() + " | Condición IVA: " + cliente.getCondicionIVA());
+        System.out.println("  DNI/CUIT: " + cliente.getDni() + " | Condición IVA: " + cliente.getCondicionIVA());
         System.out.println("  Domicilio: " + cliente.getDomicilio());
         System.out.println("EMPLEADO QUE GESTIONÓ: " + empleado.getNombre() + " (" + empleado.getPuesto() + ")");
         System.out.println("----------------------------------------------------------");
