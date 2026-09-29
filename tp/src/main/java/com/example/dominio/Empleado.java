@@ -14,8 +14,9 @@ public class Empleado extends Persona {
     private Departamento departamento;
 
     public Empleado(String nombre, String domicilio, String DNI, String telefono,
-                    double salario, String puesto, LocalDate fechaIngreso, Departamento departamento) {
-        super(nombre, domicilio, DNI, telefono);
+                    double salario, String puesto, LocalDate fechaIngreso, Departamento departamento,
+                    CondicionIVA CondicionIVA) {
+        super(nombre, domicilio, DNI, telefono, CondicionIVA);
         this.salario = salario;
         this.puesto = puesto;
         this.fechaIngreso = fechaIngreso;
