@@ -1,5 +1,6 @@
 package com.example.dominio;
 
+// Se extiende de ItemFacturable para prestaciones intangibles.
 public class Servicio extends ItemFacturable {
 
     public Servicio(String codigo, String nombre, double precio, String tipo, Proveedor proveedor) {
@@ -9,10 +10,5 @@ public class Servicio extends ItemFacturable {
     @Override
     public String getDescripcion() {
         return "Servicio: " + getNombre() + " (" + getTipo() + ")";
-    }
-
-    @Override
-    public double getSubtotal() {
-        return getPrecio();
     }
 }
