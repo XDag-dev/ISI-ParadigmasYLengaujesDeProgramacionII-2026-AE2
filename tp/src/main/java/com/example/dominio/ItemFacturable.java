@@ -37,7 +37,7 @@ public abstract class ItemFacturable {
         return proveedor;
     }
 
-    public abstract String getDescription();
+    public abstract String getDescripcion();
 }
 
 

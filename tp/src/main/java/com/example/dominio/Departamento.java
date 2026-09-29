@@ -1,24 +1,19 @@
 package com.example.dominio;
 
-/**
- * Departamento de la empresa, gestionado por un responsable y con un conjunto de empleados.
- */
+import java.util.ArrayList;
+import java.util.List;
 
 public class Departamento {
 
-    private static int CAPACIDAD_EMPLEADOS = 20;
-
     private String nombre;
-    private double presupuesto; 
-    private Empleado responsable; // Empleado responsable del departamento
-    private Empleado[] empleados;
-    private int cantidadEmpleados;
+    private double presupuesto;
+    private Empleado responsable;
+    private List<Empleado> empleados;
 
     public Departamento(String nombre, double presupuesto) {
         this.nombre = nombre;
         this.presupuesto = presupuesto;
-        this.empleados = new Empleado[CAPACIDAD_EMPLEADOS];
-        this.cantidadEmpleados = 0;
+        this.empleados = new ArrayList<>();
     }
 
     public void asignarResponsable(Empleado empleado) {
@@ -26,12 +21,7 @@ public class Departamento {
     }
 
     public void agregarEmpleado(Empleado empleado) {
-        if (cantidadEmpleados < empleados.length) {
-            empleados[cantidadEmpleados] = empleado;
-            cantidadEmpleados++;
-        } else {
-            System.out.println("No se puede agregar el empleado: departamento completo.");
-        }
+        this.empleados.add(empleado);
     }
 
     public String getNombre() {
@@ -46,11 +36,7 @@ public class Departamento {
         return responsable;
     }
 
-    public Empleado[] getEmpleados() {
+    public List<Empleado> getEmpleados() {
         return empleados;
-    }
-
-    public int getCantidadEmpleados() {
-        return cantidadEmpleados;
     }
 }

@@ -2,21 +2,17 @@ package com.example.dominio;
 
 import java.time.LocalDate;
 
-/**
- * Empleado de la empresa, asociado a un Departamento.
- */
-
 public class Empleado extends Persona {
 
     private double salario;
-    private String puesto;   // administrativo / técnico / gerente 
+    private String puesto; // administrativo / técnico / gerente
     private LocalDate fechaIngreso;
     private Departamento departamento;
 
-    public Empleado(String nombre, String domicilio, String DNI, String telefono,
-                    double salario, String puesto, LocalDate fechaIngreso, Departamento departamento,
-                    CondicionIVA CondicionIVA) {
-        super(nombre, domicilio, DNI, telefono, CondicionIVA);
+    public Empleado(String nombre, String domicilio, String dni, String telefono,
+                    CondicionIVA condicionIVA, double salario, String puesto,
+                    LocalDate fechaIngreso, Departamento departamento) {
+        super(nombre, domicilio, dni, telefono, condicionIVA);
         this.salario = salario;
         this.puesto = puesto;
         this.fechaIngreso = fechaIngreso;
@@ -27,7 +23,7 @@ public class Empleado extends Persona {
         return salario;
     }
 
-    public String getPuesto(){
+    public String getPuesto() {
         return puesto;
     }
 
@@ -35,8 +31,7 @@ public class Empleado extends Persona {
         return departamento;
     }
 
-    public LocalDate getFechaIngreso() { 
-       return fechaIngreso;
+    public LocalDate getFechaIngreso() {
+        return fechaIngreso;
     }
-
 }

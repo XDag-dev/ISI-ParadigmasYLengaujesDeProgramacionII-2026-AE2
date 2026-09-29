@@ -10,16 +10,16 @@ public class Factura {
     private int numeroComprobante;
     private TipoComprobante tipoComprobante;
     private LocalDate fechaEmision;
-
+    
     private Cliente cliente;
     private Empleado empleado;
     private List<LineaFactura> lineas;
 
-    // Se integran los atributos de Pago.java (clase eliminada)
+    // Atributos integrados de Pago
     private MetodoPago metodoPago;
     private EstadoPago estadoPago;
 
-    // Se tienen los atributos de Validación AFIP/ARCA (Se tomó como ejemplo)
+    // Atributos de Validación ARCA / AFIP
     private String cae;
     private LocalDate fechaVencimientoCAE;
     private String codigoQR;
@@ -43,10 +43,10 @@ public class Factura {
     }
 
     public double calcularTotal() {
-            double total = 0.0;
-            for (LineaFactura linea : lineas) {
-                total += linea.calcularSubtotal();
-            }
+        double total = 0.0;
+        for (LineaFactura linea : lineas) {
+            total += linea.calcularSubtotal();
+        }
         return total;
     }
 
@@ -57,7 +57,7 @@ public class Factura {
         this.codigoQR = codigoQR;
     }
 
-    public void mostarDetalle() {
+    public void mostrarDetalle() {
         System.out.println("==========================================================");
         System.out.println("                   " + tipoComprobante.getDescripcion().toUpperCase() + " (COD. " + String.format("%03d", tipoComprobante.getCodigo()) + ")");
         System.out.println("Punto de Venta: " + String.format("%05d", puntoVenta) + " | Comp. Nro: " + String.format("%08d", numeroComprobante));
