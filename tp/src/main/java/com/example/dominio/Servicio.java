@@ -1,6 +1,4 @@
-package com.example.servicios;
-
-import com.example.ItemFacturable;
+package com.example.dominio;
 
 public class Servicio extends ItemFacturable {
 

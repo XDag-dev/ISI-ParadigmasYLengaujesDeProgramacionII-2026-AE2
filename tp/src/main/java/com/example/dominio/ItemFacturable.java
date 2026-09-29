@@ -1,4 +1,4 @@
-package com.example;
+package com.example.dominio;
 
 public class ItemFacturable {
 

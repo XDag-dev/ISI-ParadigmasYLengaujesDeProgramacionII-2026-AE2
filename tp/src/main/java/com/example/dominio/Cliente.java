@@ -1,4 +1,4 @@
-package com.example;
+package com.example.dominio;
 
 /**
  * Cliente de la empresa, asociado a un historial de facturas.

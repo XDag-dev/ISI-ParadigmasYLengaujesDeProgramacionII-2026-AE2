@@ -1,6 +1,8 @@
-package com.example;
+package com.example.dominio;
 
 import java.time.LocalDate;
+
+import com.example.Pago;
 
 public class Factura {
 

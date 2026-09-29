@@ -1,4 +1,5 @@
-package com.example;
+package com.example.dominio;
+
 /**
  * Proveedor de productos/servicios. Mantiene su catálogo mediante
  * un arreglo de capacidad fja (no colecciones de Java).

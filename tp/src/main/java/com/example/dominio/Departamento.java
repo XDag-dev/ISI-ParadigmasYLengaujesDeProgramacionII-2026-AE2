@@ -1,4 +1,4 @@
-package com.example;
+package com.example.dominio;
 
 /**
  * Departamento de la empresa, gestionado por un responsable y con un conjunto de empleados.

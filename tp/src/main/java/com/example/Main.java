@@ -2,7 +2,14 @@ package com.example;
 
 import java.time.LocalDate;
 
-import com.example.servicios.Servicio;
+import com.example.dominio.Cliente;
+import com.example.dominio.Departamento;
+import com.example.dominio.Empleado;
+import com.example.dominio.Factura;
+import com.example.dominio.ItemFacturable;
+import com.example.dominio.Producto;
+import com.example.dominio.Proveedor;
+import com.example.dominio.Servicio;
 
 public class Main {
     public static void main(String[] args) {
