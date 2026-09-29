@@ -1,34 +1,24 @@
 package com.example.dominio;
 
-/**
- * Cliente de la empresa, asociado a un historial de facturas.
- */
+import java.util.ArrayList;
+import java.util.List;
 
 public class Cliente extends Persona {
 
-    private static final int CAPACIDAD_HISTORIAL = 20; // Capacidad máxima del historial de facturas
-    
     private double limiteCredito;
-    private String categoria; // reular / premium / corporativo
-    private Factura[] historial;
-    private int cantidadFacturas; // Contador de facturas en el historial
+    private String categoria; // regular / premium / corporativo
+    private List<Factura> historial;
 
-    public Cliente(String nombre, String domicilio, String DNI, String telefono,
-                   double limiteCredito, String categoria) {
-        super(nombre, domicilio, DNI, telefono);
+    public Cliente(String nombre, String domicilio, String dni, String telefono,
+                   CondicionIVA condicionIVA, double limiteCredito, String categoria) {
+        super(nombre, domicilio, dni, telefono, condicionIVA);
         this.limiteCredito = limiteCredito;
         this.categoria = categoria;
-        this.historial = new Factura[CAPACIDAD_HISTORIAL];
-        this.cantidadFacturas = 0;
+        this.historial = new ArrayList<>();
     }
 
-    public void agregarFactura(Factura factura){
-        if (cantidadFacturas < historial.length) {
-            historial[cantidadFacturas] = factura;
-            cantidadFacturas++;
-        } else {
-            System.out.println("No se puede agregar la factura: historial completo.");
-        }
+    public void agregarFactura(Factura factura) {
+        this.historial.add(factura);
     }
 
     public double getLimiteCredito() {
@@ -39,11 +29,7 @@ public class Cliente extends Persona {
         return categoria;
     }
 
-    public Factura[] getHistorial() {
+    public List<Factura> getHistorial() {
         return historial;
-    }
-
-    public int getCantidadFacturas() {
-        return cantidadFacturas;
     }
 }
