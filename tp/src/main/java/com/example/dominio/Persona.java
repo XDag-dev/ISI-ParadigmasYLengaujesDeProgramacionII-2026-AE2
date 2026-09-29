@@ -11,12 +11,14 @@ public abstract class Persona {
     private String domicilio;
     private String dni;
     private String telefono;
+    private CondicionIVA CondicionIVA;
 
-    public Persona(String nombre, String domicilio, String dni, String telefono){
+    public Persona(String nombre, String domicilio, String dni, String telefono, CondicionIVA CondicionIVA){
         this.nombre = nombre;
         this.domicilio = domicilio;
         this.dni = dni;
         this.telefono = telefono;
+        this.CondicionIVA = CondicionIVA;
     }
 
     public String getNombre() {
@@ -33,5 +35,14 @@ public abstract class Persona {
 
     public String getTelefono() {
         return telefono;
+    }
+
+    public CondicionIVA getCondicionIVA() {
+        return CondicionIVA;
+    }
+
+    // Cambiamos la condición fiscal del cliente existente.
+    public void setCondicionIVA(CondicionIVA CondiciónIVA){
+        this.CondicionIVA = CondiciónIVA;
     }
 }
