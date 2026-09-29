@@ -21,7 +21,7 @@ public class Factura {
 
     // Se tienen los atributos de Validación AFIP/ARCA (Se tomó como ejemplo)
     private String cae;
-    private LocalDate fechaVencimienCAE;
+    private LocalDate fechaVencimientoCAE;
     private String codigoQR;
 
     public Factura(int puntoVenta, int numeroComprobante, TipoComprobante tipoComprobante,
