@@ -1,6 +1,7 @@
 package com.example.dominio;
 
-public class ItemFacturable {
+// Encapsula las propiedades de cualquier ítem (producto o servicio) que pueda ser facturado.
+public abstract class ItemFacturable {
 
     private String codigo;
     private String nombre;
@@ -36,12 +37,7 @@ public class ItemFacturable {
         return proveedor;
     }
 
-    public String getDescripcion() {
-        return getNombre() + " (" + getTipo() + ")";
-    }
-
-    public double getSubtotal() {
-        return getPrecio();
-    }
+    public abstract String getDescription();
 }
+
 
