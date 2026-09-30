@@ -177,8 +177,7 @@ public class Factura implements Comparable<Factura>, Imprimible, Exportable {
     @Override
     public String generarFilaTexto() {
         // Genera una línea separada por punto y coma lista para guardar en archivo
-        return puntoVenta + ";" + numeroComprobante + ";" + fechaEmision + ";" + 
-               cliente.getNombre() + ";" + calcularTotal();
+        return puntoVenta + ";" + numeroComprobante + ";" + fechaEmision + ";" + cliente.getNombre() + ";" + calcularTotal();
     }
 }
 
