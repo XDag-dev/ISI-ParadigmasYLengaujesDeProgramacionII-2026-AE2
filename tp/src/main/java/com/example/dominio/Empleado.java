@@ -34,4 +34,10 @@ public class Empleado extends Persona {
     public LocalDate getFechaIngreso() {
         return fechaIngreso;
     }
+
+     // Implementación de el método abstracto de la clase Persona.java
+    @Override 
+    public String getDetalleRol() {
+       return "Rol: CLIENTE - Categoría: " + puesto + " - Límite Crédito: $" + salario;
+    }
 }

@@ -32,4 +32,10 @@ public class Proveedor extends Persona {
     public List<Producto> getProductos() {
         return productos;
     }
+
+    // Implementación de el método abstracto de la clase Persona.java
+    @Override 
+    public String getDetalleRol() {
+       return "Rol: CLIENTE - Categoría: " + razonSocial + " - Límite Crédito: $" + cuit;
+    }
 }
