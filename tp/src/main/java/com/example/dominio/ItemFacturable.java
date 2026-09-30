@@ -12,8 +12,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     property = "tipo"
 )
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = Auto.class, name = "auto"),
-    @JsonSubTypes.Type(value = Moto.class, name = "moto")
+    @JsonSubTypes.Type(value = Producto.class, name = "producto"),
+    @JsonSubTypes.Type(value = Servicio.class, name = "servicio")
 })
 
 // Encapsula las propiedades de cualquier ítem (producto o servicio) que pueda ser facturado.
@@ -28,6 +28,8 @@ public abstract class ItemFacturable {
     // Constructor vacío requerido por Jackson
     protected ItemFacturable() {
     }
+
+    
 
     public ItemFacturable(String codigo, String nombre, double precio, String tipo, Proveedor proveedor) {
         this.codigo = codigo;
@@ -60,6 +62,8 @@ public abstract class ItemFacturable {
     public abstract String getDescripcion();{
         
     }
+
+    
 }
 
 
