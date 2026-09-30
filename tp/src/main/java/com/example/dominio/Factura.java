@@ -4,7 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Factura {
+// Esta clase implementa más de una interfáz a la vez (contratos transversales)
+public class Factura implements Comparable<Factura>, Imprimible, Exportable {
 
     private int puntoVenta;
     private int numeroComprobante;
@@ -55,6 +56,14 @@ public class Factura {
             total += linea.calcularSubtotal();
         }
         return total;
+    }
+
+    // Método para validar la factura y lanzar la excepción si está vacía
+    public void procesarFactura() throws com.example.excepciones.FacturaSinItemsExcepcion {
+        if (this.lineas.isEmpty()) {
+            throw new com.example.excepciones.FacturaSinItemsException("Error crítico: No se puede procesar la Factura N° " + numeroComprobante + " porque no contiene ítems.");
+        }
+        System.out.println("Factura N° " + numeroComprobante + " validada y lista para emitir.");
     }
 
     // Métodos para asignar validación simulada de ARCA
@@ -145,6 +154,31 @@ public class Factura {
 
     public String getCodigoQR() { 
         return codigoQR; 
+    }
+
+    // --- IMPLEMENTACIÓN DE INTERFACES AE2 ---
+
+    // 1. Contrato de Comparable (Orden Natural)
+    @Override
+    public int compareTo(Factura otraFactura) {
+        // Ordenamos las facturas por su número de comprobante (de menor a mayor)
+        return Integer.compare(this.numeroComprobante, otraFactura.numeroComprobante);
+    }
+
+    // 2. Contrato Imprimible
+    @Override
+    public void imprimirTicket() {
+        // Como ya tienes un método "mostrarDetalle" espectacular, simplemente lo llamamos aquí
+        // para cumplir el contrato de la interfaz sin duplicar código.
+        this.mostrarDetalle(); 
+    }
+
+    // 3. Contrato Exportable (Para persistencia en TXT/JSON)
+    @Override
+    public String generarFilaTexto() {
+        // Genera una línea separada por punto y coma lista para guardar en archivo
+        return puntoVenta + ";" + numeroComprobante + ";" + fechaEmision + ";" + 
+               cliente.getNombre() + ";" + calcularTotal();
     }
 }
 
