@@ -36,4 +36,10 @@ public class Cliente extends Persona {
     public String getDni() {
         return dni;
     }
+
+    // Implementación de el método abstracto de la clase Persona.java
+    @Override 
+    public String getDetalleRol() {
+        return "Rol: CLIENTE - Límite Crédito: $" + limiteCredito;
+    }
 }

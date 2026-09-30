@@ -5,6 +5,7 @@ package com.example.dominio;
  * No se intancia directamente: siempre a través de Cliente, Empleado o Proveedor 
  */
 
+// Clase abstracta 'abstract'
 public abstract class Persona {
     
     private String nombre;
@@ -45,4 +46,7 @@ public abstract class Persona {
     public void setCondicionIVA(CondicionIVA CondiciónIVA){
         this.CondicionIVA = CondiciónIVA;
     }
+
+    // Método abstracto: cada clase lo implementará a su manera
+    public abstract String getDetalleRol();
 }
