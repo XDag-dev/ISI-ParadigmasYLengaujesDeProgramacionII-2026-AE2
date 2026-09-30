@@ -20,7 +20,7 @@ public class Factura implements Comparable<Factura>, Imprimible, Exportable {
     private MetodoPago metodoPago;
     private EstadoPago estadoPago;
 
-    // Atributos de Validación ARCA / AFIP
+    // Atributos de Validación ARCA / AFIP (Recordemos que se tomó como ejemplo).
     private String cae;
     private LocalDate fechaVencimientoCAE;
     private String codigoQR;
@@ -61,6 +61,7 @@ public class Factura implements Comparable<Factura>, Imprimible, Exportable {
     // Método para validar la factura y lanzar la excepción si está vacía
     public void procesarFactura() throws com.example.excepciones.FacturaSinItemsExcepcion {
         if (this.lineas.isEmpty()) {
+            // Aquí se lanza la excepción propia del dominio
             throw new com.example.excepciones.FacturaSinItemsExcepcion("Error crítico: No se puede procesar la Factura N° " + numeroComprobante + " porque no contiene ítems.");
         }
         System.out.println("Factura N° " + numeroComprobante + " validada y lista para emitir.");

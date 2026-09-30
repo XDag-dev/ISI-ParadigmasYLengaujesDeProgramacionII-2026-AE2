@@ -1,5 +1,21 @@
 package com.example.dominio;
 
+// Importaciones para manejar el polimorfismo durante la serialización y deserialización de objetos JSON
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+// Ese fragmento corresponde a anotaciones de Jackson que le enseñan a la biblioteca cómo
+// manejar el polimorfismo al momento de guardar y leer objetos en formato JSON.
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "tipo"
+)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = Auto.class, name = "auto"),
+    @JsonSubTypes.Type(value = Moto.class, name = "moto")
+})
+
 // Encapsula las propiedades de cualquier ítem (producto o servicio) que pueda ser facturado.
 public abstract class ItemFacturable {
 
@@ -8,6 +24,10 @@ public abstract class ItemFacturable {
     private double precio;
     private String tipo;
     private Proveedor proveedor;
+
+    // Constructor vacío requerido por Jackson
+    protected ItemFacturable() {
+    }
 
     public ItemFacturable(String codigo, String nombre, double precio, String tipo, Proveedor proveedor) {
         this.codigo = codigo;
