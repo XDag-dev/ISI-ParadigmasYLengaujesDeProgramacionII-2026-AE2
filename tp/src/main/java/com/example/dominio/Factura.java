@@ -61,7 +61,7 @@ public class Factura implements Comparable<Factura>, Imprimible, Exportable {
     // Método para validar la factura y lanzar la excepción si está vacía
     public void procesarFactura() throws com.example.excepciones.FacturaSinItemsExcepcion {
         if (this.lineas.isEmpty()) {
-            throw new com.example.excepciones.FacturaSinItemsException("Error crítico: No se puede procesar la Factura N° " + numeroComprobante + " porque no contiene ítems.");
+            throw new com.example.excepciones.FacturaSinItemsExcepcion("Error crítico: No se puede procesar la Factura N° " + numeroComprobante + " porque no contiene ítems.");
         }
         System.out.println("Factura N° " + numeroComprobante + " validada y lista para emitir.");
     }
@@ -167,15 +167,15 @@ public class Factura implements Comparable<Factura>, Imprimible, Exportable {
 
     // 2. Contrato Imprimible
     @Override
-    public void imprimirTicket() {
-        // Como ya tienes un método "mostrarDetalle" espectacular, simplemente lo llamamos aquí
+    public void ImprimibleTicket() {
+        // Como ya se tiene un método "mostrarDetalle", simplemente lo llamamos aquí
         // para cumplir el contrato de la interfaz sin duplicar código.
         this.mostrarDetalle(); 
     }
 
-    // 3. Contrato Exportable (Para persistencia en TXT/JSON)
+    // 3. Contrato Exportable (Para persistencia en JSON)
     @Override
-    public String generarFilaTexto() {
+    public String generarFilatexto() {
         // Genera una línea separada por punto y coma lista para guardar en archivo
         return puntoVenta + ";" + numeroComprobante + ";" + fechaEmision + ";" + cliente.getNombre() + ";" + calcularTotal();
     }
