@@ -126,7 +126,7 @@ public class MenuConsola {
         String nom = scanner.nextLine();
         System.out.print("Precio: ");
         double prec = Double.parseDouble(scanner.nextLine());
-        System.out.print("Categoría/Tipo: ");
+        System.out.print("Categoría/Tipo (Hardware/Sop. Técnico): ");
         String tipo = scanner.nextLine();
 
         Proveedor prov = proveedores.get(0); // Selecciona el primer proveedor por defecto
@@ -321,12 +321,28 @@ public class MenuConsola {
                     }
                 }
                 case 3 -> {
-                    if (!facturas.isEmpty()) {
-                        facturas.get(facturas.size() - 1).mostrarDetalle();
-                    } else {
-                        System.out.println("No hay facturas emitidas.");
+                    if (facturas.isEmpty()) {
+                    System.out.println("No hay facturas emitidas en el sistema.");
+                } else {
+                    System.out.println("\n=== SELECCIONAR COMPROBANTE A IMPRIMIR ===");
+                    for (int i = 0; i < facturas.size(); i++) {
+                        Factura f = facturas.get(i);
+                        System.out.println((i + 1) + ". N° " + f.getPuntoVenta() + "-" + f.getNumeroComprobante() 
+                            + " | Cliente: " + f.getCliente().getNombre() 
+                            + " | Total: $" + f.calcularTotal());
                     }
-                }
+                    System.out.print("Ingrese el número de la factura a ver: ");
+                    int idx = Integer.parseInt(scanner.nextLine()) - 1;
+
+                    if (idx >= 0 && idx < facturas.size()) {
+                        facturas.get(idx).mostrarDetalle();
+                    } else {
+                        System.out.println("Opción de factura no válida.");
+                    }
+    
+    }
+
+            }
                 default -> System.out.println("Opción inválida.");
             }
         } catch (Exception e) {
@@ -357,10 +373,22 @@ public class MenuConsola {
     }
     Cliente clienteSeleccionado = clientes.get(idxCliente);
 
-    // 2. SELECCIÓN DE EMPLEADO (Vendedor)
-    Empleado empleadoSeleccionado = empleados.get(0); // Asigna el primero o implementa selección similar
+    // 2. SELECCIÓN DE EMPLEADO
+    System.out.println("\n-- Seleccione el Empleado (Vendedor) --");
+    for (int i = 0; i < empleados.size(); i++) {
+        Empleado e = empleados.get(i);
+        System.out.println((i + 1) + ". " + e.getNombre() + " (" + e.getPuesto() + ")");
+    }
+    System.out.print("Ingrese el número del empleado: ");
+    int idxEmpleado = Integer.parseInt(scanner.nextLine()) - 1;
 
-    // Definición del tipo de comprobante según condición fiscal
+    if (idxEmpleado < 0 || idxEmpleado >= empleados.size()) {
+        System.out.println("Empleado no válido. Operación cancelada.");
+        return;
+    }
+    Empleado empleadoSeleccionado = empleados.get(idxEmpleado);
+
+    // Definición del tipo de comprobante según condición IVA
     TipoComprobante tipoComp = (clienteSeleccionado.getCondicionIVA() == CondicionIVA.RESPONSABLE_INSCRIPTO) 
             ? TipoComprobante.FACTURA_A 
             : TipoComprobante.FACTURA_C;
@@ -368,7 +396,7 @@ public class MenuConsola {
     int proxNro = facturas.size() + 101;
     Factura nuevaFactura = new Factura(1, proxNro, tipoComp, LocalDate.now(), clienteSeleccionado, empleadoSeleccionado, MetodoPago.EFECTIVO);
 
-    // 3. CARGA DINÁMICA DE ÍTEMS AL DETALLE
+    // 3. CARGA DINÁMICA DE ÍTEMS
     boolean agregarMas = true;
     while (agregarMas) {
         System.out.println("\n-- Catálogo Disponible --");
