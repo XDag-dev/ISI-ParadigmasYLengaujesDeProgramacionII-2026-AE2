@@ -1,5 +1,6 @@
 package com.example.dominio;
 
+//------------------------------------------------------------------------------------------
 // Importaciones para manejar el polimorfismo durante la serialización y deserialización de objetos JSON
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -15,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @JsonSubTypes.Type(value = Producto.class, name = "producto"),
     @JsonSubTypes.Type(value = Servicio.class, name = "servicio")
 })
+//------------------------------------------------------------------------------------------
 
 // Encapsula las propiedades de cualquier ítem (producto o servicio) que pueda ser facturado.
 public abstract class ItemFacturable {
@@ -25,9 +27,11 @@ public abstract class ItemFacturable {
     private String tipo;
     private Proveedor proveedor;
 
+    //------------------------------------------------------------------------------------------
     // Constructor vacío requerido por Jackson
     protected ItemFacturable() {
     }
+    //------------------------------------------------------------------------------------------
 
     
 
@@ -39,29 +43,61 @@ public abstract class ItemFacturable {
         this.proveedor = proveedor;
     }
 
+    // Getters y Setters
+
+    // --- ---
+
     public String getCodigo() {
         return codigo;
     }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    // --- ---
 
     public String getNombre() {
         return nombre;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    // --- ---
+
     public double getPrecio() {
         return precio;
     }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
+    // --- ---
 
     public String getTipo() {
         return tipo;
     }
 
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    // --- ---
+
     public Proveedor getProveedor() {
         return proveedor;
     }
 
+    // --- ---
+
     public abstract String getDescripcion();{
         
     }
+
+    // --- ---
 
     
 }

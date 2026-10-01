@@ -1,5 +1,6 @@
 package com.example.dominio;
 
+//------------------------------------------------------------------------------------------
 // Importaciones para manejar el polimorfismo durante la serialización y deserialización de objetos JSON
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @JsonSubTypes.Type(value = Empleado.class, name = "empleado"),
     @JsonSubTypes.Type(value = Proveedor.class, name = "proveedor")
 })
+//------------------------------------------------------------------------------------------
 
 /**
  * Clase abstracta base para toda persona vinculada a la empresa.
@@ -31,9 +33,11 @@ public abstract class Persona {
     private String telefono;
     private CondicionIVA CondicionIVA;
 
+    //------------------------------------------------------------------------------------------
     // Constructor vacío requerido por Jackson
     protected Persona() {
     }
+    //------------------------------------------------------------------------------------------
 
     public Persona(String nombre, String domicilio, String dni, String telefono, CondicionIVA CondicionIVA){
         this.nombre = nombre;
@@ -45,7 +49,9 @@ public abstract class Persona {
 
 
     // Getters y Setters
-     // --- ---
+    
+    // --- ---
+    
     public String getNombre() {
         return nombre;
     }
@@ -53,7 +59,9 @@ public abstract class Persona {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+    
     // --- ---
+    
     public String getDomicilio() {
         return domicilio;
     }
@@ -61,7 +69,9 @@ public abstract class Persona {
     public void setDomicilio(String domicilio) {
         this.domicilio = domicilio;
     }
-     // --- ---
+    
+    // --- ---
+    
     public String getDni() {
         return dni;
     }
@@ -69,7 +79,9 @@ public abstract class Persona {
     public void setDni(String dni) {
         this.dni = dni;
     }
-     // --- ---
+    
+    // --- ---
+    
     public String getTelefono() {
         return telefono;
     }
@@ -77,7 +89,9 @@ public abstract class Persona {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-     // --- ---
+    
+    // --- ---
+    
     public CondicionIVA getCondicionIVA() {
         return CondicionIVA;
     }
@@ -86,6 +100,7 @@ public abstract class Persona {
     public void setCondicionIVA(CondicionIVA CondiciónIVA){
         this.CondicionIVA = CondiciónIVA;
     }
+    
     // --- ---
     
     // Método abstracto: cada clase lo implementará a su manera
