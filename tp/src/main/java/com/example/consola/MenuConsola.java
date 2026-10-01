@@ -137,6 +137,7 @@ public class MenuConsola {
         System.out.println("2. Cargar Nuevo Producto");
         System.out.println("3. Cargar Nuevo Servicio");
         System.out.println("4. Eliminar Ítem del Catálogo");
+        System.out.println("0. Volver al menú principal");
         System.out.print("Opción: ");
         try {
             int op = Integer.parseInt(scanner.nextLine());
@@ -145,6 +146,7 @@ public class MenuConsola {
                 case 2 -> cargarProducto();
                 case 3 -> cargarServicio();
                 case 4 -> eliminarItemCatalogo();
+                case 0 -> System.out.println("Volviendo al menú principal...");
                 default -> System.out.println("Opción inválida.");
             }
         } catch (Exception e) {
@@ -175,6 +177,10 @@ public class MenuConsola {
         String nom = scanner.nextLine();
         System.out.print("Precio: ");
         double prec = Double.parseDouble(scanner.nextLine());
+            if (prec <= 0) {
+            System.out.println("El precio debe ser mayor a cero. Carga cancelada.");
+            return;
+        }
         System.out.print("Categoría/Tipo (Hardware/Sop. Técnico): ");
         String tipo = scanner.nextLine();
 
@@ -186,9 +192,9 @@ public class MenuConsola {
 
     private void cargarServicio() {
         if (proveedores.isEmpty()) {
-            System.out.println(" Error: Primero debe haber al menos un Proveedor registrado.");
-            return;
-        }
+                System.out.println(" Error: Primero debe haber al menos un Proveedor registrado.");
+                return;
+            }
         System.out.println("\n-- Carga de Nuevo Servicio --");
         System.out.print("Código (ej. S002): ");
         String cod = scanner.nextLine();
@@ -196,6 +202,10 @@ public class MenuConsola {
         String nom = scanner.nextLine();
         System.out.print("Precio: ");
         double prec = Double.parseDouble(scanner.nextLine());
+            if (prec <= 0) {
+                System.out.println("El precio debe ser mayor a cero. Carga cancelada.");
+                return;
+            }
         System.out.print("Especialidad/Tipo: ");
         String tipo = scanner.nextLine();
 
@@ -219,6 +229,7 @@ public class MenuConsola {
         System.out.println("7. Eliminar Cliente"); 
         System.out.println("8. Eliminar Empleado");
         System.out.println("9. Eliminar Proveedor");
+        System.out.println("0. Volver al menú principal");
         System.out.print("Opción: ");
         try {
             int op = Integer.parseInt(scanner.nextLine());
@@ -232,6 +243,7 @@ public class MenuConsola {
                 case 7 -> eliminarCliente(); 
                 case 8 -> eliminarEmpleado();
                 case 9 -> eliminarProveedor();
+                case 0 -> System.out.println("Volviendo al menú principal...");
                 default -> System.out.println("Opción inválida.");
             }
         } catch (Exception e) {
@@ -296,6 +308,11 @@ public class MenuConsola {
         CondicionIVA iva = seleccionarCondicionIVA();
         System.out.print("Salario: ");
         double sal = Double.parseDouble(scanner.nextLine());
+        if (sal <= 0) {
+            System.out.println("El salario debe ser un monto mayor a cero. Carga cancelada.");
+            return;
+        }
+
         System.out.print("Puesto: ");
         String puesto = scanner.nextLine();
 
@@ -331,6 +348,7 @@ public class MenuConsola {
         System.out.println("1. Listar Departamentos");
         System.out.println("2. Crear Departamento");
         System.out.println("3. Eliminar Departamento");
+        System.out.println("0. Volver al menú principal");
         System.out.print("Opción: ");
         try {
             int op = Integer.parseInt(scanner.nextLine());
@@ -347,14 +365,19 @@ public class MenuConsola {
                     String nom = scanner.nextLine();
                     System.out.print("Presupuesto: ");
                     double pres = Double.parseDouble(scanner.nextLine());
+                    if (pres <= 0) {
+                        System.out.println("El presupuesto debe ser un monto mayor a cero.");
+                        break;
+                    }
                     departamentos.add(new Departamento(nom, pres));
                     System.out.println("¡Departamento creado!");
                 }
                     default -> System.out.println("Opción inválida.");
 
                 case 3 ->{ eliminarDepartamento();
-
                 }
+
+                case 0 -> System.out.println("Volviendo al menú principal...");
             }
         } catch (Exception e) {
             System.out.println("Error en ingreso de datos.");
@@ -368,8 +391,9 @@ public class MenuConsola {
         System.out.println("\n--- SUBMENÚ: FACTURACIÓN Y VENTAS ---");
         System.out.println("1. Emitir Nueva Factura (Venta Interactiva)");
         System.out.println("2. Listar Historial de Comprobantes");
-        System.out.println("3. Ver Comprobante Impreso (ARCA)");
+        System.out.println("3. Ver Comprobante Impreso ");
         System.out.println("4. Eliminar / Anular Factura");
+        System.out.println("0. Volver al menú principal");
         System.out.print("Opción: ");
         try {
             int op = Integer.parseInt(scanner.nextLine());
@@ -404,8 +428,10 @@ public class MenuConsola {
                 }
                     default -> System.out.println("Opción inválida.");
                 
-                    case 4 -> { eliminarFactura();
+                case 4 -> { eliminarFactura();
                 }
+
+                case 0 -> System.out.println("Volviendo al menú principal...");
             }
         } catch (Exception e) {
             System.out.println("Error procesando la venta: " + e.getMessage());
@@ -473,6 +499,11 @@ public class MenuConsola {
                 ItemFacturable itemSeleccionado = catalogo.get(idxItem);
                 System.out.print("Ingrese la cantidad: ");
                 int cantidad = Integer.parseInt(scanner.nextLine());
+                
+                if (cantidad <= 0) {
+                    System.out.println("La cantidad debe ser mayor a cero.");
+                    continue; // Vuelve a pedir el ítem sin agregarlo a la factura
+                }
 
                 nuevaFactura.agregarLinea(new LineaFactura(itemSeleccionado, cantidad, 0.0));
                 System.out.println("Ítem agregado a la factura.");

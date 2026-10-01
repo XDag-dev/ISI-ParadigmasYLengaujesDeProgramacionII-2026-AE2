@@ -7,13 +7,4 @@
   "limiteCredito" : 50000.0,
   "categoria" : "REGULAR",
   "condicionIVA" : "CONSUMIDOR_FINAL"
-}, {
-  "tipo" : "cliente",
-  "nombre" : "Donn Alejandro",
-  "domicilio" : "Km 40, Jose Sartori",
-  "dni" : "47.425.113",
-  "telefono" : "3754-561556",
-  "limiteCredito" : 800000.0,
-  "categoria" : "NUEVO",
-  "condicionIVA" : "CONSUMIDOR_FINAL"
 } ]
