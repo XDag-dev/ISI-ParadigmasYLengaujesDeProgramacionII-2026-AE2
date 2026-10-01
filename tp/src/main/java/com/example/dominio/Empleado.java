@@ -22,7 +22,7 @@ public class Empleado extends Persona {
     public Empleado(String nombre, String domicilio, String dni, String telefono,
                     CondicionIVA condicionIVA, double salario, String puesto,
                     LocalDate fechaIngreso, Departamento departamento) {
-        super(nombre, domicilio, dni, telefono, condicionIVA);
+        super(nombre, dni, domicilio, telefono, condicionIVA);
         this.salario = salario;
         this.puesto = puesto;
         this.fechaIngreso = fechaIngreso;

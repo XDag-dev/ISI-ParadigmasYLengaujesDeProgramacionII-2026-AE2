@@ -21,9 +21,9 @@ public class Cliente extends Persona {
     }
     //------------------------------------------------------------------------------------------
 
-    public Cliente(String nombre, String domicilio, String dni, String telefono,
+    public Cliente(String nombre, String dni, String domicilio, String telefono,
                    CondicionIVA condicionIVA, double limiteCredito, String categoria) {
-        super(nombre, domicilio, dni, telefono, condicionIVA);
+        super(nombre, dni, domicilio, telefono, condicionIVA);
         this.limiteCredito = limiteCredito;
         this.categoria = categoria;
         this.historial = new ArrayList<>();

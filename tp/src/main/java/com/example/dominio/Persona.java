@@ -39,10 +39,10 @@ public abstract class Persona {
     }
     //------------------------------------------------------------------------------------------
 
-    public Persona(String nombre, String domicilio, String dni, String telefono, CondicionIVA CondicionIVA){
+    public Persona(String nombre, String dni, String domicilio, String telefono, CondicionIVA CondicionIVA){
         this.nombre = nombre;
-        this.domicilio = domicilio;
         this.dni = dni;
+        this.domicilio = domicilio;
         this.telefono = telefono;
         this.CondicionIVA = CondicionIVA;
     }

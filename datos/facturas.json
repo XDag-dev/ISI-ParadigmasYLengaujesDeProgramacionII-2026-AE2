@@ -1,0 +1,83 @@
+[ {
+  "puntoVenta" : 1,
+  "numeroComprobante" : 29,
+  "tipoComprobante" : "FACTURA_C",
+  "fechaEmision" : "2026-10-01",
+  "cliente" : {
+    "tipo" : "cliente",
+    "nombre" : "Maria Gomez",
+    "domicilio" : "20-87654321-8",
+    "dni" : "Av. Siempreviva 742",
+    "telefono" : "011-55554444",
+    "limiteCredito" : 50000.0,
+    "categoria" : "REGULAR",
+    "detalleRol" : "Rol: CLIENTE - Categoría: REGULAR - Límite Crédito: $50000.0",
+    "condicionIVA" : "CONSUMIDOR_FINAL"
+  },
+  "empleado" : {
+    "tipo" : "empleado",
+    "nombre" : "Juan Perez",
+    "domicilio" : "Calle Falsa 123",
+    "dni" : "20-12345678-9",
+    "telefono" : "011-11223344",
+    "salario" : 350000.0,
+    "puesto" : "Técnico",
+    "fechaIngreso" : "2023-03-15",
+    "detalleRol" : "Rol: CLIENTE - Categoría: Técnico - Límite Crédito: $350000.0",
+    "condicionIVA" : "RESPONSABLE_INSCRIPTO"
+  },
+  "lineas" : [ {
+    "item" : {
+      "tipo" : "producto",
+      "codigo" : "P001",
+      "nombre" : "Mouse Inalámbrico",
+      "precio" : 15000.0,
+      "tipo" : "Hardware",
+      "proveedor" : {
+        "tipo" : "proveedor",
+        "nombre" : "Tech Supply S.A.",
+        "domicilio" : "Av. Industrial 500",
+        "dni" : "30-11223344-5",
+        "telefono" : "011-44332211",
+        "razonSocial" : "Tech Supply S.A.",
+        "cuit" : "30-11223344-5",
+        "productos" : [ ],
+        "detalleRol" : "Rol: CLIENTE - Categoría: Tech Supply S.A. - Límite Crédito: $30-11223344-5",
+        "condicionIVA" : "RESPONSABLE_INSCRIPTO"
+      },
+      "descripcion" : "Producto: Mouse Inalámbrico (Hardware)"
+    },
+    "cantidad" : 2,
+    "precioUnitario" : 15000.0,
+    "bonificacion" : 0.0
+  }, {
+    "item" : {
+      "tipo" : "servicio",
+      "codigo" : "S001",
+      "nombre" : "Instalación de Software",
+      "precio" : 8000.0,
+      "tipo" : "Soporte Técnico",
+      "proveedor" : {
+        "tipo" : "proveedor",
+        "nombre" : "Tech Supply S.A.",
+        "domicilio" : "Av. Industrial 500",
+        "dni" : "30-11223344-5",
+        "telefono" : "011-44332211",
+        "razonSocial" : "Tech Supply S.A.",
+        "cuit" : "30-11223344-5",
+        "productos" : [ ],
+        "detalleRol" : "Rol: CLIENTE - Categoría: Tech Supply S.A. - Límite Crédito: $30-11223344-5",
+        "condicionIVA" : "RESPONSABLE_INSCRIPTO"
+      },
+      "descripcion" : "Servicio: Instalación de Software (Soporte Técnico)"
+    },
+    "cantidad" : 1,
+    "precioUnitario" : 8000.0,
+    "bonificacion" : 1000.0
+  } ],
+  "metodoPago" : "TRANSFERENCIA",
+  "estadoPago" : "CANCELADO",
+  "cae" : "74453966403949",
+  "fechaVencimientoCAE" : "2026-10-11",
+  "codigoQR" : "https://www.arca.gob.ar/fe/qr/?p=eyJ2ZXJzaW9uIjoxfQ=="
+} ]

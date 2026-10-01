@@ -21,12 +21,12 @@ public class Proveedor extends Persona {
         this.productos.add(producto);
     }
 
-    public String getRazonSocial() {
-        return razonSocial;
+    public String getRazonSocial() { 
+        return getNombre(); 
     }
 
     public String getCuit() {
-        return cuit;
+        return getDni();
     }
 
     public List<Producto> getProductos() {
