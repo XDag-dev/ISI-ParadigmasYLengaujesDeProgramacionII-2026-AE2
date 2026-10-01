@@ -2,6 +2,7 @@ package com.example.persistencia;
 
 import com.example.dominio.Factura;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -18,6 +19,8 @@ public class FacturaRepository {
 
     public FacturaRepository() {
         this.mapper = new ObjectMapper();
+        // Evita que falle si encuentra campos en el JSON que no existen en la clase Java
+        this.mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         this.mapper.registerModule(new JavaTimeModule());
         this.mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         this.archivo = new File("datos/facturas.json");

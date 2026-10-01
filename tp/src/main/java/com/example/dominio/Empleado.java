@@ -19,7 +19,7 @@ public class Empleado extends Persona {
     }
     //------------------------------------------------------------------------------------------
 
-    public Empleado(String nombre, String domicilio, String dni, String telefono,
+    public Empleado(String nombre, String dni, String domicilio, String telefono,
                     CondicionIVA condicionIVA, double salario, String puesto,
                     LocalDate fechaIngreso, Departamento departamento) {
         super(nombre, dni, domicilio, telefono, condicionIVA);
@@ -74,7 +74,8 @@ public class Empleado extends Persona {
 
     // Implementación de el método abstracto de la clase Persona.java
     @Override 
+    @JsonIgnore
     public String getDetalleRol() {
-       return "Rol: CLIENTE - Categoría: " + puesto + " - Límite Crédito: $" + salario;
+       return "Rol: EMPLEADO - Puesto: " + puesto + " - Salario: $" + salario;
     }
 }

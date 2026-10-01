@@ -98,8 +98,7 @@ public abstract class ItemFacturable {
     // --- ---
 
     // Método abstracto.
-    public abstract String getDescripcion();{
-    }
+    public abstract String getDescripcion();
 }
 
 

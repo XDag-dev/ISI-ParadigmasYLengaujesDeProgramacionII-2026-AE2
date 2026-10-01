@@ -31,7 +31,8 @@ public class MenuConsola {
                 System.out.println("Se cargaron " + facturas.size() + " facturas desde datos/facturas.json");
             }
         } catch (IOException e) {
-            System.out.println("No se encontraron datos guardados previos. Inicializando datos por defecto...");
+            System.out.println("Error al leer archivo JSON: " + e.getMessage());
+            e.printStackTrace(); // Muestra el detalle si ocurre algún inconveniente técnico
             inicializarDatosPrueba();
         }
 

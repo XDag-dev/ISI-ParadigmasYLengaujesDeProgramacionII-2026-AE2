@@ -8,6 +8,12 @@ public class LineaFactura {
     private double precioUnitario;
     private double bonificacion; // Porcentaje o monto de descuento
 
+    //------------------------------------------------------------------------------------------
+    // Constructor vacío requerido por Jackson
+    public LineaFactura() {
+    }
+    //------------------------------------------------------------------------------------------
+
     public LineaFactura(ItemFacturable item, int cantidad, double bonificacion) {
         this.item = item;
         this.cantidad = cantidad;

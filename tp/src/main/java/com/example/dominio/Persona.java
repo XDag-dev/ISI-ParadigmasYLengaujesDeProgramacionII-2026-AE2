@@ -1,5 +1,6 @@
 package com.example.dominio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 //------------------------------------------------------------------------------------------
 // Importaciones para manejar el polimorfismo durante la serialización y deserialización de objetos JSON
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -104,5 +105,6 @@ public abstract class Persona {
     // --- ---
     
     // Método abstracto: cada clase lo implementará a su manera
+    @JsonIgnore 
     public abstract String getDetalleRol();
 }

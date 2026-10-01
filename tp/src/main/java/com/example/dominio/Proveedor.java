@@ -9,6 +9,14 @@ public class Proveedor extends Persona {
     private String cuit;
     private List<Producto> productos;
 
+    //------------------------------------------------------------------------------------------
+    // Constructor vacío requerido por Jackson
+    protected Proveedor() {
+        super();
+        this.productos = new ArrayList<>();
+    }
+    //------------------------------------------------------------------------------------------
+
     public Proveedor(String razonSocial, String cuit, String domicilio, 
                     String telefono, CondicionIVA condicionIVA) {
        super(razonSocial, cuit, domicilio, telefono, condicionIVA);
@@ -36,6 +44,6 @@ public class Proveedor extends Persona {
     // Implementación de el método abstracto de la clase Persona.java
     @Override 
     public String getDetalleRol() {
-       return "Rol: CLIENTE - Categoría: " + razonSocial + " - Límite Crédito: $" + cuit;
+       return "Rol: PROVEEDOR - Razón Social: " + getNombre() + " - CUIT: " + getDni();
     }
 }
