@@ -91,15 +91,15 @@ public abstract class ItemFacturable {
         return proveedor;
     }
 
-    // --- ---
-
-    public abstract String getDescripcion();{
-        
+    public void setProveedor(Proveedor proveedor) {
+        return proveedor;
     }
 
     // --- ---
 
-    
+    // Método abstracto.
+    public abstract String getDescripcion();{
+    }
 }
 
 
