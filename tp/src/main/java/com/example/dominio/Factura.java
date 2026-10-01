@@ -25,6 +25,13 @@ public class Factura implements Comparable<Factura>, Imprimible, Exportable {
     private LocalDate fechaVencimientoCAE;
     private String codigoQR;
 
+    //------------------------------------------------------------------------------------------
+    // Constructor vacío requerido por Jackson
+    public Factura() {
+        this.lineas = new ArrayList<>();
+    }
+    //------------------------------------------------------------------------------------------
+
     public Factura(int puntoVenta, int numeroComprobante, TipoComprobante tipoComprobante, LocalDate fechaEmision, Cliente cliente, Empleado empleado, MetodoPago metodoPago) {
         this.puntoVenta = puntoVenta;
         this.numeroComprobante = numeroComprobante;
@@ -108,54 +115,125 @@ public class Factura implements Comparable<Factura>, Imprimible, Exportable {
         System.out.println("==========================================================");
     }
     
-    // Getters
+    // Getters y Setters
+
+    // --- ---
+    
     public  int getPuntoVenta() {
         return puntoVenta;
     }
 
+    public void setPuntoVenta(int puntoVenta) {
+        this.puntoVenta = puntoVenta;
+    }
+
+    // --- ---
+    
     public int getNumeroComprobante() {
         return numeroComprobante;
     }
 
+    public void setNumeroComprobante(int numeroComprobante) {
+        this.numeroComprobante = numeroComprobante;
+    }
+
+    // --- ---
+    
     public TipoComprobante getTipoComprobante() { 
         return tipoComprobante; 
     }
 
+    public void setTipoComprobante(TipoComprobante tipoComprobante) {
+        this.tipoComprobante = tipoComprobante;
+    }
+
+    // --- ---
+    
     public LocalDate getFechaEmision() { 
         return fechaEmision; 
     }
 
+    public void setFechaEmision(LocalDate fechaEmision) {
+        this.fechaEmision = fechaEmision;
+    }
+    
+    // --- ---
+    
     public Cliente getCliente() { 
         return cliente; 
     }
 
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    // --- ---
+    
     public Empleado getEmpleado() { 
         return empleado; 
     }
 
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
+    }
+    
+    // --- ---
+    
     public List<LineaFactura> getLineas() { 
         return lineas; 
     }
 
+    public void setLineas(List<LineaFactura> lineas) { 
+        this.lineas = lineas; 
+    }
+
+    // --- ---
+    
     public MetodoPago getMetodoPago() { 
         return metodoPago; 
     }
 
+    public void setMetodoPago(MetodoPago metodoPago) {
+        this.metodoPago = metodoPago;
+    }
+
+    // --- ---
+    
     public EstadoPago getEstadoPago() { 
         return estadoPago; 
     }
 
+    // --- ---
+    
     public String getCae() { 
         return cae; 
     }
 
+    public void setCae(String cae) {
+        this.cae = cae;
+    }
+    
+    // --- ---
+    
     public LocalDate getFechaVencimientoCAE() { 
         return fechaVencimientoCAE; 
     }
 
+    public void setFechaVencimientoCAE(LocalDate fechaVenciamientoCAE) {
+        this.fechaVencimientoCAE = fechaVenciamientoCAE;
+    }
+
+    // --- ---
+    
     public String getCodigoQR() { 
         return codigoQR; 
     }
+
+    public void setCodigoQR(String codigoQR) {
+        this.codigoQR = codigoQR;
+    }
+
+    // --- ---
 
     // --- IMPLEMENTACIÓN DE INTERFACES AE2 ---
 
@@ -174,16 +252,18 @@ public class Factura implements Comparable<Factura>, Imprimible, Exportable {
         this.mostrarDetalle(); 
     }
 
+    //------------------------------------------------------------------------------------------
     // 3. Contrato Exportable (Para persistencia en JSON)
     @Override
     public String generarFilatexto() {
         // Genera una línea separada por punto y coma lista para guardar en archivo
         return puntoVenta + ";" + numeroComprobante + ";" + fechaEmision + ";" + cliente.getNombre() + ";" + calcularTotal();
     }
+    //------------------------------------------------------------------------------------------
 }
 
 /*
- * Refactorización total para alinearse a las especificaciones de comprobantes 
+ * Se refactorizó para alinearse a las especificaciones de comprobantes 
  * fiscales de ARCA:   
  *
     * Mantiene numeración formal de ARCA: puntoVenta y numeroComprobante (ej. 00001-00000029).   
