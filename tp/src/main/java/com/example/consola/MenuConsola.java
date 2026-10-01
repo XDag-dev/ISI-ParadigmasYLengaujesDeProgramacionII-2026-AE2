@@ -1,6 +1,8 @@
 package com.example.consola;
 
 import com.example.dominio.*;
+import com.example.persistencia.FacturaRepository;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.Scanner;
 public class MenuConsola {
 
     private final Scanner scanner = new Scanner(System.in);
+    private final FacturaRepository repositorio = new FacturaRepository();
 
     // Listas dinámicas globales en memoria
     private final List<Cliente> clientes = new ArrayList<>();
@@ -16,11 +19,21 @@ public class MenuConsola {
     private final List<Proveedor> proveedores = new ArrayList<>();
     private final List<Departamento> departamentos = new ArrayList<>();
     private final List<ItemFacturable> catalogo = new ArrayList<>();
-    private final List<Factura> facturas = new ArrayList<>();
+    private List<Factura> facturas = new ArrayList<>();
 
     public void iniciar() {
-        // Carga inicial de datos por defecto (1 de cada entidad principal)
-        inicializarDatosPrueba();
+        // Carga de facturas guardadas desde JSON
+        try {
+            facturas = repositorio.obtenerTodas();
+            if (facturas.isEmpty()) {
+                inicializarDatosPrueba();
+            } else {
+                System.out.println("Se cargaron " + facturas.size() + " facturas desde datos/facturas.json");
+            }
+        } catch (IOException e) {
+            System.out.println("No se encontraron datos guardados previos. Inicializando datos por defecto...");
+            inicializarDatosPrueba();
+        }
 
         int opcion = -1;
         do {
@@ -42,13 +55,25 @@ public class MenuConsola {
                     case 2 -> menuPersonas();
                     case 3 -> menuDepartamentos();
                     case 4 -> menuFacturacion();
-                    case 0 -> System.out.println("Guardando datos y saliendo del sistema...");
+                    case 0 -> {
+                        guardarDatos();
+                        System.out.println("Guardando datos y saliendo del sistema...");
+                    }
                     default -> System.out.println("Opción inválida. Intente de nuevo.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Error: Debe ingresar un número entero válido.");
             }
         } while (opcion != 0);
+    }
+
+    private void guardarDatos() {
+        try {
+            repositorio.guardarTodas(facturas);
+            System.out.println("Datos guardados correctamente en datos/facturas.json");
+        } catch (IOException e) {
+            System.out.println("Error al guardar datos en JSON: " + e.getMessage());
+        }
     }
 
     private void inicializarDatosPrueba() {
@@ -322,27 +347,25 @@ public class MenuConsola {
                 }
                 case 3 -> {
                     if (facturas.isEmpty()) {
-                    System.out.println("No hay facturas emitidas en el sistema.");
-                } else {
-                    System.out.println("\n=== SELECCIONAR COMPROBANTE A IMPRIMIR ===");
-                    for (int i = 0; i < facturas.size(); i++) {
-                        Factura f = facturas.get(i);
-                        System.out.println((i + 1) + ". N° " + f.getPuntoVenta() + "-" + f.getNumeroComprobante() 
-                            + " | Cliente: " + f.getCliente().getNombre() 
-                            + " | Total: $" + f.calcularTotal());
-                    }
-                    System.out.print("Ingrese el número de la factura a ver: ");
-                    int idx = Integer.parseInt(scanner.nextLine()) - 1;
-
-                    if (idx >= 0 && idx < facturas.size()) {
-                        facturas.get(idx).mostrarDetalle();
+                        System.out.println("No hay facturas emitidas en el sistema.");
                     } else {
-                        System.out.println("Opción de factura no válida.");
-                    }
-    
-    }
+                        System.out.println("\n=== SELECCIONAR COMPROBANTE A IMPRIMIR ===");
+                        for (int i = 0; i < facturas.size(); i++) {
+                            Factura f = facturas.get(i);
+                            System.out.println((i + 1) + ". N° " + f.getPuntoVenta() + "-" + f.getNumeroComprobante() 
+                                + " | Cliente: " + f.getCliente().getNombre() 
+                                + " | Total: $" + f.calcularTotal());
+                        }
+                        System.out.print("Ingrese el número de la factura a ver: ");
+                        int idx = Integer.parseInt(scanner.nextLine()) - 1;
 
-            }
+                        if (idx >= 0 && idx < facturas.size()) {
+                            facturas.get(idx).mostrarDetalle();
+                        } else {
+                            System.out.println("Opción de factura no válida.");
+                        }
+                    }
+                }
                 default -> System.out.println("Opción inválida.");
             }
         } catch (Exception e) {
@@ -351,91 +374,94 @@ public class MenuConsola {
     }
 
     private void emitirNuevaFactura() {
-    if (clientes.isEmpty() || empleados.isEmpty() || catalogo.isEmpty()) {
-        System.out.println(" Error: Debe registrar previamente al menos 1 Cliente, 1 Empleado y 1 Ítem en el Catálogo.");
-        return;
-    }
-
-    System.out.println("\n=== NUEVA VENTA / EMISIÓN DE FACTURA ===");
-
-    // 1. SELECCIÓN DE CLIENTE
-    System.out.println("\n-- Seleccione el Cliente --");
-    for (int i = 0; i < clientes.size(); i++) {
-        Cliente c = clientes.get(i);
-        System.out.println((i + 1) + ". " + c.getNombre() + " (DNI/CUIT: " + c.getDni() + ")");
-    }
-    System.out.print("Ingrese el número del cliente: ");
-    int idxCliente = Integer.parseInt(scanner.nextLine()) - 1;
-
-    if (idxCliente < 0 || idxCliente >= clientes.size()) {
-        System.out.println("Cliente no válido. Operación cancelada.");
-        return;
-    }
-    Cliente clienteSeleccionado = clientes.get(idxCliente);
-
-    // 2. SELECCIÓN DE EMPLEADO
-    System.out.println("\n-- Seleccione el Empleado (Vendedor) --");
-    for (int i = 0; i < empleados.size(); i++) {
-        Empleado e = empleados.get(i);
-        System.out.println((i + 1) + ". " + e.getNombre() + " (" + e.getPuesto() + ")");
-    }
-    System.out.print("Ingrese el número del empleado: ");
-    int idxEmpleado = Integer.parseInt(scanner.nextLine()) - 1;
-
-    if (idxEmpleado < 0 || idxEmpleado >= empleados.size()) {
-        System.out.println("Empleado no válido. Operación cancelada.");
-        return;
-    }
-    Empleado empleadoSeleccionado = empleados.get(idxEmpleado);
-
-    // Definición del tipo de comprobante según condición IVA
-    TipoComprobante tipoComp = (clienteSeleccionado.getCondicionIVA() == CondicionIVA.RESPONSABLE_INSCRIPTO) 
-            ? TipoComprobante.FACTURA_A 
-            : TipoComprobante.FACTURA_C;
-
-    int proxNro = facturas.size() + 101;
-    Factura nuevaFactura = new Factura(1, proxNro, tipoComp, LocalDate.now(), clienteSeleccionado, empleadoSeleccionado, MetodoPago.EFECTIVO);
-
-    // 3. CARGA DINÁMICA DE ÍTEMS
-    boolean agregarMas = true;
-    while (agregarMas) {
-        System.out.println("\n-- Catálogo Disponible --");
-        for (int i = 0; i < catalogo.size(); i++) {
-            ItemFacturable item = catalogo.get(i);
-            System.out.println((i + 1) + ". [" + item.getCodigo() + "] " + item.getNombre() + " - $" + item.getPrecio() + " (" + item.getDescripcion() + ")");
-        }
-        System.out.print("Seleccione el producto/servicio a vender: ");
-        int idxItem = Integer.parseInt(scanner.nextLine()) - 1;
-
-        if (idxItem >= 0 && idxItem < catalogo.size()) {
-            ItemFacturable itemSeleccionado = catalogo.get(idxItem);
-            System.out.print("Ingrese la cantidad: ");
-            int cantidad = Integer.parseInt(scanner.nextLine());
-
-            nuevaFactura.agregarLinea(new LineaFactura(itemSeleccionado, cantidad, 0.0));
-            System.out.println("Ítem agregado a la factura.");
-        } else {
-            System.out.println("Opción de ítem no válida.");
+        if (clientes.isEmpty() || empleados.isEmpty() || catalogo.isEmpty()) {
+            System.out.println(" Error: Debe registrar previamente al menos 1 Cliente, 1 Empleado y 1 Ítem en el Catálogo.");
+            return;
         }
 
-        System.out.print("¿Desea agregar otro producto/servicio a esta factura? (s/n): ");
-        String resp = scanner.nextLine().trim();
-        if (!resp.equalsIgnoreCase("s")) {
-            agregarMas = false;
+        System.out.println("\n=== NUEVA VENTA / EMISIÓN DE FACTURA ===");
+
+        // 1. SELECCIÓN DE CLIENTE
+        System.out.println("\n-- Seleccione el Cliente --");
+        for (int i = 0; i < clientes.size(); i++) {
+            Cliente c = clientes.get(i);
+            System.out.println((i + 1) + ". " + c.getNombre() + " (DNI/CUIT: " + c.getDni() + ")");
         }
+        System.out.print("Ingrese el número del cliente: ");
+        int idxCliente = Integer.parseInt(scanner.nextLine()) - 1;
+
+        if (idxCliente < 0 || idxCliente >= clientes.size()) {
+            System.out.println("Cliente no válido. Operación cancelada.");
+            return;
+        }
+        Cliente clienteSeleccionado = clientes.get(idxCliente);
+
+        // 2. SELECCIÓN DE EMPLEADO
+        System.out.println("\n-- Seleccione el Empleado (Vendedor) --");
+        for (int i = 0; i < empleados.size(); i++) {
+            Empleado e = empleados.get(i);
+            System.out.println((i + 1) + ". " + e.getNombre() + " (" + e.getPuesto() + ")");
+        }
+        System.out.print("Ingrese el número del empleado: ");
+        int idxEmpleado = Integer.parseInt(scanner.nextLine()) - 1;
+
+        if (idxEmpleado < 0 || idxEmpleado >= empleados.size()) {
+            System.out.println("Empleado no válido. Operación cancelada.");
+            return;
+        }
+        Empleado empleadoSeleccionado = empleados.get(idxEmpleado);
+
+        // Definición del tipo de comprobante según condición IVA
+        TipoComprobante tipoComp = (clienteSeleccionado.getCondicionIVA() == CondicionIVA.RESPONSABLE_INSCRIPTO) 
+                ? TipoComprobante.FACTURA_A 
+                : TipoComprobante.FACTURA_C;
+
+        int proxNro = facturas.size() + 101;
+        Factura nuevaFactura = new Factura(1, proxNro, tipoComp, LocalDate.now(), clienteSeleccionado, empleadoSeleccionado, MetodoPago.EFECTIVO);
+
+        // 3. CARGA DINÁMICA DE ÍTEMS
+        boolean agregarMas = true;
+        while (agregarMas) {
+            System.out.println("\n-- Catálogo Disponible --");
+            for (int i = 0; i < catalogo.size(); i++) {
+                ItemFacturable item = catalogo.get(i);
+                System.out.println((i + 1) + ". [" + item.getCodigo() + "] " + item.getNombre() + " - $" + item.getPrecio() + " (" + item.getDescripcion() + ")");
+            }
+            System.out.print("Seleccione el producto/servicio a vender: ");
+            int idxItem = Integer.parseInt(scanner.nextLine()) - 1;
+
+            if (idxItem >= 0 && idxItem < catalogo.size()) {
+                ItemFacturable itemSeleccionado = catalogo.get(idxItem);
+                System.out.print("Ingrese la cantidad: ");
+                int cantidad = Integer.parseInt(scanner.nextLine());
+
+                nuevaFactura.agregarLinea(new LineaFactura(itemSeleccionado, cantidad, 0.0));
+                System.out.println("Ítem agregado a la factura.");
+            } else {
+                System.out.println("Opción de ítem no válida.");
+            }
+
+            System.out.print("¿Desea agregar otro producto/servicio a esta factura? (s/n): ");
+            String resp = scanner.nextLine().trim();
+            if (!resp.equalsIgnoreCase("s")) {
+                agregarMas = false;
+            }
+        }
+
+        // 4. AUTORIZACIÓN Y GUARDADO
+        nuevaFactura.setEstadoPago(EstadoPago.CANCELADO);
+        String caeSimulado = String.valueOf((long) (Math.random() * 100000000000000L));
+        nuevaFactura.autorizarARCA(caeSimulado, LocalDate.now().plusDays(10), "https://www.arca.gob.ar/fe/qr/?p=eyJ2ZXJzaW9uIjoxfQ==");
+
+        facturas.add(nuevaFactura);
+        clienteSeleccionado.agregarFactura(nuevaFactura);
+
+        // Guardado automático en JSON
+        guardarDatos();
+
+        System.out.println("\n ¡VENTA REGISTRADA CON ÉXITO Y AUTORIZADA POR ARCA!");
+        nuevaFactura.mostrarDetalle();
     }
-
-    // 4. AUTORIZACIÓN Y GUARDADO
-    nuevaFactura.setEstadoPago(EstadoPago.CANCELADO);
-    String caeSimulado = String.valueOf((long) (Math.random() * 100000000000000L));
-    nuevaFactura.autorizarARCA(caeSimulado, LocalDate.now().plusDays(10), "https://www.arca.gob.ar/fe/qr/?p=eyJ2ZXJzaW9uIjoxfQ==");
-
-    facturas.add(nuevaFactura);
-    clienteSeleccionado.agregarFactura(nuevaFactura);
-
-    System.out.println("\n ¡VENTA REGISTRADA CON ÉXITO Y AUTORIZADA POR ARCA!");
-    nuevaFactura.mostrarDetalle();
-}
 
     // =========================================================================
     // MÉTODOS AUXILIARES DE SELECCIÓN

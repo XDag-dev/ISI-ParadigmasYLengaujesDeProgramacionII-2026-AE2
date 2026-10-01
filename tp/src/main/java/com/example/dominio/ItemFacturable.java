@@ -92,7 +92,7 @@ public abstract class ItemFacturable {
     }
 
     public void setProveedor(Proveedor proveedor) {
-        return proveedor;
+        this.proveedor = proveedor;
     }
 
     // --- ---

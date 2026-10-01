@@ -9,7 +9,6 @@ public class Cliente extends Persona {
 
     private double limiteCredito;
     private String categoria; // regular / premium / corporativo
-    private List<Factura> historial;
 
     //------------------------------------------------------------------------------------------
     @JsonIgnore // Evita bucle de serialización circular con Factura

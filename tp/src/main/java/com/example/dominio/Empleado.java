@@ -1,5 +1,6 @@
 package com.example.dominio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDate;
 
 public class Empleado extends Persona {
