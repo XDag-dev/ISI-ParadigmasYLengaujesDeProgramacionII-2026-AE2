@@ -1,0 +1,116 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam class {
+    BackgroundColor White
+    ArrowColor #2C3E50
+    BorderColor #2C3E50
+}
+
+' --- INTERFACES ---
+interface Imprimible {
+    + imprimirTicket() : void
+}
+
+interface Exportable {
+    + generarFilaTexto() : String
+}
+
+' --- CLASES ABSTRACTAS ---
+abstract class Persona {
+    - nombre : String
+    # dni : String
+    - domicilio : String
+    - telefono : String
+    - condicionIVA : CondicionIVA
+    + {abstract} getDetalleRol() : String
+}
+
+abstract class ItemFacturable {
+    - codigo : String
+    - nombre : String
+    - precio : double
+    - tipo : String
+    + {abstract} getDescripcion() : String
+}
+
+' --- CLASES CONCRETAS: PERSONAS Y ORGANIZACIÓN ---
+class Cliente {
+    - limiteCredito : double
+    - categoria : String
+    + agregarFactura(factura : Factura) : void
+}
+
+class Empleado {
+    - salario : double
+    - puesto : String
+    - fechaIngreso : LocalDate
+}
+
+class Proveedor {
+    - razonSocial : String
+    - cuit : String
+}
+
+class Departamento {
+    - nombre : String
+    - presupuesto : double
+    + setResponsable(empleado : Empleado) : void
+    + agregarEmpleado(empleado : Empleado) : void
+}
+
+' --- CLASES CONCRETAS: CATÁLOGO ---
+class Producto {
+    + getDescripcion() : String
+}
+
+class Servicio {
+    + getDescripcion() : String
+}
+
+' --- CLASES CONCRETAS: FACTURACIÓN ---
+class Factura {
+    - puntoVenta : int
+    - numeroComprobante : int
+    - fechaEmision : LocalDate
+    - tipoComprobante : TipoComprobante
+    - metodoPago : MetodoPago
+    - estadoPago : EstadoPago
+    - cae : String
+    - vencimientoCae : LocalDate
+    + calcularTotal() : double
+    + procesarFactura() : void
+}
+
+class LineaFactura {
+    - cantidad : int
+    - precioUnitario : double
+    - bonificacion : double
+    + calcularSubtotal() : double
+}
+
+' --- JERARQUÍAS DE HERENCIA ---
+Persona <|-- Cliente
+Persona <|-- Empleado
+Persona <|-- Proveedor
+
+ItemFacturable <|-- Producto
+ItemFacturable <|-- Servicio
+
+' --- REALIZACIÓN DE INTERFACES ---
+Imprimible <|.. Factura
+Exportable <|.. Factura
+
+' --- RELACIONES Y CARDINALIDADES ---
+Departamento "1" o-- "0..*" Empleado : Agrupa miembros
+Departamento "0..1" --> "0..1" Empleado : Asigna responsable
+
+Proveedor "1" o-- "0..*" ItemFacturable : Suministra
+
+Cliente "1" --> "0..*" Factura : Almacena / Recibe
+Empleado "1" --> "0..*" Factura : Emite
+
+Factura "1" *-- "1..*" LineaFactura : Contiene
+LineaFactura "0..*" --> "1" ItemFacturable : Referencia
+
+@enduml
