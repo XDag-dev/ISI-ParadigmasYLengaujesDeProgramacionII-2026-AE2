@@ -1,6 +1,11 @@
 package com.example.consola;
 
 import com.example.dominio.*;
+
+import com.example.persistencia.ClienteRepository;
+import com.example.persistencia.EmpleadoRepository;
+import com.example.persistencia.ProveedorRepository;
+import com.example.persistencia.CatalogoRepository;
 import com.example.persistencia.FacturaRepository;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -11,28 +16,40 @@ import java.util.Scanner;
 public class MenuConsola {
 
     private final Scanner scanner = new Scanner(System.in);
-    private final FacturaRepository repositorio = new FacturaRepository();
+    // Instancias de cada repositorio independiente
+    private final ClienteRepository clienteRepo = new ClienteRepository();
+    private final EmpleadoRepository empleadoRepo = new EmpleadoRepository();
+    private final ProveedorRepository proveedorRepo = new ProveedorRepository();
+    private final CatalogoRepository catalogoRepo = new CatalogoRepository();
+    private final FacturaRepository facturaRepo = new FacturaRepository();
 
     // Listas dinámicas globales en memoria
-    private final List<Cliente> clientes = new ArrayList<>();
-    private final List<Empleado> empleados = new ArrayList<>();
-    private final List<Proveedor> proveedores = new ArrayList<>();
-    private final List<Departamento> departamentos = new ArrayList<>();
-    private final List<ItemFacturable> catalogo = new ArrayList<>();
+    private List<Cliente> clientes = new ArrayList<>();
+    private List<Empleado> empleados = new ArrayList<>();
+    private List<Proveedor> proveedores = new ArrayList<>();
+    private List<Departamento> departamentos = new ArrayList<>();
+    private List<ItemFacturable> catalogo = new ArrayList<>();
     private List<Factura> facturas = new ArrayList<>();
 
     public void iniciar() {
         // Carga de facturas guardadas desde JSON
         try {
-            facturas = repositorio.obtenerTodas();
-            if (facturas.isEmpty()) {
+            clientes = clienteRepo.obtenerTodos();
+            empleados = empleadoRepo.obtenerTodos();
+            proveedores = proveedorRepo.obtenerTodos();
+            catalogo = catalogoRepo.obtenerTodos();
+            facturas = facturaRepo.obtenerTodas();
+
+            // Si el sistema no tiene datos guardados en ninguna lista, inicializa datos de prueba
+            if (clientes.isEmpty() && empleados.isEmpty() && catalogo.isEmpty() && facturas.isEmpty()) {
+                System.out.println("No se encontraron archivos previos. Cargando datos por defecto...");
                 inicializarDatosPrueba();
+                guardarDatos();
             } else {
-                System.out.println("Se cargaron " + facturas.size() + " facturas desde datos/facturas.json");
+                System.out.println("Datos cargados correctamente desde la carpeta datos/");
             }
         } catch (IOException e) {
-            System.out.println("Error al leer archivo JSON: " + e.getMessage());
-            e.printStackTrace(); // Muestra el detalle si ocurre algún inconveniente técnico
+            System.out.println("Error al cargar los datos guardados: " + e.getMessage());
             inicializarDatosPrueba();
         }
 
@@ -70,10 +87,14 @@ public class MenuConsola {
 
     private void guardarDatos() {
         try {
-            repositorio.guardarTodas(facturas);
-            System.out.println("Datos guardados correctamente en datos/facturas.json");
+            clienteRepo.guardarTodos(clientes);
+            empleadoRepo.guardarTodos(empleados);
+            proveedorRepo.guardarTodos(proveedores);
+            catalogoRepo.guardarTodos(catalogo);
+            facturaRepo.guardarTodas(facturas);
+            System.out.println("Todos los datos fueron actualizados en la carpeta datos/");
         } catch (IOException e) {
-            System.out.println("Error al guardar datos en JSON: " + e.getMessage());
+            System.out.println("Error al guardar en archivos JSON: " + e.getMessage());
         }
     }
 
@@ -115,6 +136,7 @@ public class MenuConsola {
         System.out.println("1. Listar Productos y Servicios");
         System.out.println("2. Cargar Nuevo Producto");
         System.out.println("3. Cargar Nuevo Servicio");
+        System.out.println("4. Eliminar Ítem del Catálogo");
         System.out.print("Opción: ");
         try {
             int op = Integer.parseInt(scanner.nextLine());
@@ -122,6 +144,7 @@ public class MenuConsola {
                 case 1 -> listarCatalogo();
                 case 2 -> cargarProducto();
                 case 3 -> cargarServicio();
+                case 4 -> eliminarItemCatalogo();
                 default -> System.out.println("Opción inválida.");
             }
         } catch (Exception e) {
@@ -193,6 +216,9 @@ public class MenuConsola {
         System.out.println("4. Cargar Cliente");
         System.out.println("5. Cargar Empleado");
         System.out.println("6. Cargar Proveedor");
+        System.out.println("7. Eliminar Cliente"); 
+        System.out.println("8. Eliminar Empleado");
+        System.out.println("9. Eliminar Proveedor");
         System.out.print("Opción: ");
         try {
             int op = Integer.parseInt(scanner.nextLine());
@@ -203,6 +229,9 @@ public class MenuConsola {
                 case 4 -> cargarCliente();
                 case 5 -> cargarEmpleado();
                 case 6 -> cargarProveedor();
+                case 7 -> eliminarCliente(); 
+                case 8 -> eliminarEmpleado();
+                case 9 -> eliminarProveedor();
                 default -> System.out.println("Opción inválida.");
             }
         } catch (Exception e) {
@@ -301,6 +330,7 @@ public class MenuConsola {
         System.out.println("\n--- SUBMENÚ: DEPARTAMENTOS ---");
         System.out.println("1. Listar Departamentos");
         System.out.println("2. Crear Departamento");
+        System.out.println("3. Eliminar Departamento");
         System.out.print("Opción: ");
         try {
             int op = Integer.parseInt(scanner.nextLine());
@@ -320,7 +350,11 @@ public class MenuConsola {
                     departamentos.add(new Departamento(nom, pres));
                     System.out.println("¡Departamento creado!");
                 }
-                default -> System.out.println("Opción inválida.");
+                    default -> System.out.println("Opción inválida.");
+
+                case 3 ->{ eliminarDepartamento();
+
+                }
             }
         } catch (Exception e) {
             System.out.println("Error en ingreso de datos.");
@@ -335,6 +369,7 @@ public class MenuConsola {
         System.out.println("1. Emitir Nueva Factura (Venta Interactiva)");
         System.out.println("2. Listar Historial de Comprobantes");
         System.out.println("3. Ver Comprobante Impreso (ARCA)");
+        System.out.println("4. Eliminar / Anular Factura");
         System.out.print("Opción: ");
         try {
             int op = Integer.parseInt(scanner.nextLine());
@@ -367,7 +402,10 @@ public class MenuConsola {
                         }
                     }
                 }
-                default -> System.out.println("Opción inválida.");
+                    default -> System.out.println("Opción inválida.");
+                
+                    case 4 -> { eliminarFactura();
+                }
             }
         } catch (Exception e) {
             System.out.println("Error procesando la venta: " + e.getMessage());
@@ -482,6 +520,147 @@ public class MenuConsola {
             };
         } catch (Exception e) {
             return CondicionIVA.CONSUMIDOR_FINAL;
+        }
+    }
+
+    // =========================================================================
+    // MÉTODOS DE ELIMINACIÓN (BAJA)
+    // =========================================================================
+
+    private void eliminarItemCatalogo() {
+        if (catalogo.isEmpty()) {
+            System.out.println("El catálogo está vacío.");
+            return;
+        }
+        listarCatalogo();
+        System.out.print("Ingrese el número (índice 1 a N) del ítem a eliminar: ");
+        try {
+            int idx = Integer.parseInt(scanner.nextLine()) - 1;
+            if (idx >= 0 && idx < catalogo.size()) {
+                catalogo.remove(idx);
+                guardarDatos();
+                System.out.println("Ítem eliminado correctamente.");
+            } else {
+                System.out.println("Índice inválido.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error en el ingreso.");
+        }
+    }
+
+    private void eliminarCliente() {
+        if (clientes.isEmpty()) {
+            System.out.println("No hay clientes registrados.");
+            return;
+        }
+        for (int i = 0; i < clientes.size(); i++) {
+            System.out.println((i + 1) + ". " + clientes.get(i).getNombre());
+        }
+        System.out.print("Ingrese el número del cliente a eliminar: ");
+        try {
+            int idx = Integer.parseInt(scanner.nextLine()) - 1;
+            if (idx >= 0 && idx < clientes.size()) {
+                clientes.remove(idx);
+                guardarDatos();
+                System.out.println("Cliente eliminado correctamente.");
+            } else {
+                System.out.println("Índice inválido.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error en el ingreso.");
+        }
+    }
+
+    private void eliminarEmpleado() {
+        if (empleados.isEmpty()) {
+            System.out.println("No hay empleados registrados.");
+            return;
+        }
+        for (int i = 0; i < empleados.size(); i++) {
+            System.out.println((i + 1) + ". " + empleados.get(i).getNombre());
+        }
+        System.out.print("Ingrese el número del empleado a eliminar: ");
+        try {
+            int idx = Integer.parseInt(scanner.nextLine()) - 1;
+            if (idx >= 0 && idx < empleados.size()) {
+                empleados.remove(idx);
+                guardarDatos();
+                System.out.println("Empleado eliminado correctamente.");
+            } else {
+                System.out.println("Índice inválido.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error en el ingreso.");
+        }
+    }
+
+    private void eliminarProveedor() {
+        if (proveedores.isEmpty()) {
+            System.out.println("No hay proveedores registrados.");
+            return;
+        }
+        for (int i = 0; i < proveedores.size(); i++) {
+            System.out.println((i + 1) + ". " + proveedores.get(i).getRazonSocial());
+        }
+        System.out.print("Ingrese el número del proveedor a eliminar: ");
+        try {
+            int idx = Integer.parseInt(scanner.nextLine()) - 1;
+            if (idx >= 0 && idx < proveedores.size()) {
+                proveedores.remove(idx);
+                guardarDatos();
+                System.out.println("Proveedor eliminado correctamente.");
+            } else {
+                System.out.println("Índice inválido.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error en el ingreso.");
+        }
+    }
+
+    private void eliminarDepartamento() {
+        if (departamentos.isEmpty()) {
+            System.out.println("No hay departamentos registrados.");
+            return;
+        }
+        for (int i = 0; i < departamentos.size(); i++) {
+            System.out.println((i + 1) + ". " + departamentos.get(i).getNombre());
+        }
+        System.out.print("Ingrese el número del departamento a eliminar: ");
+        try {
+            int idx = Integer.parseInt(scanner.nextLine()) - 1;
+            if (idx >= 0 && idx < departamentos.size()) {
+                departamentos.remove(idx);
+                guardarDatos(); 
+                System.out.println("Departamento eliminado correctamente.");
+            } else {
+                System.out.println("Índice inválido.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error en el ingreso.");
+        }
+    }
+
+    private void eliminarFactura() {
+        if (facturas.isEmpty()) {
+            System.out.println("No hay facturas registradas.");
+            return;
+        }
+        for (int i = 0; i < facturas.size(); i++) {
+            Factura f = facturas.get(i);
+            System.out.println((i + 1) + ". Factura N° " + f.getPuntoVenta() + "-" + f.getNumeroComprobante() + " | Cliente: " + f.getCliente().getNombre());
+        }
+        System.out.print("Ingrese el número de la factura a eliminar: ");
+        try {
+            int idx = Integer.parseInt(scanner.nextLine()) - 1;
+            if (idx >= 0 && idx < facturas.size()) {
+                facturas.remove(idx);
+                guardarDatos();
+                System.out.println("Factura eliminada correctamente.");
+            } else {
+                System.out.println("Índice inválido.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error en el ingreso.");
         }
     }
 }

@@ -1,0 +1,11 @@
+[ {
+  "tipo" : "empleado",
+  "nombre" : "Juan Perez",
+  "domicilio" : "Calle Falsa 123",
+  "dni" : "20-12345678-9",
+  "telefono" : "011-11223344",
+  "salario" : 350000.0,
+  "puesto" : "Técnico",
+  "fechaIngreso" : [ 2023, 3, 15 ],
+  "condicionIVA" : "RESPONSABLE_INSCRIPTO"
+} ]

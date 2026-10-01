@@ -30,11 +30,11 @@ public class Proveedor extends Persona {
     }
 
     public String getRazonSocial() { 
-        return getNombre(); 
+        return this.razonSocial; 
     }
 
     public String getCuit() {
-        return getDni();
+        return this.cuit;
     }
 
     public List<Producto> getProductos() {

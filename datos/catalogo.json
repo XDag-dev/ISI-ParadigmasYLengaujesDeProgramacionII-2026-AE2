@@ -1,0 +1,37 @@
+[ {
+  "tipo" : "producto",
+  "codigo" : "P001",
+  "nombre" : "Mouse Inalámbrico",
+  "precio" : 15000.0,
+  "tipo" : "Hardware",
+  "proveedor" : {
+    "tipo" : "proveedor",
+    "nombre" : "Tech Supply S.A.",
+    "domicilio" : "Av. Industrial 500",
+    "dni" : "30-11223344-5",
+    "telefono" : "011-44332211",
+    "razonSocial" : "Tech Supply S.A.",
+    "cuit" : "30-11223344-5",
+    "productos" : [ ],
+    "condicionIVA" : "RESPONSABLE_INSCRIPTO"
+  },
+  "descripcion" : "Producto: Mouse Inalámbrico (Hardware)"
+}, {
+  "tipo" : "servicio",
+  "codigo" : "S001",
+  "nombre" : "Instalación de Software",
+  "precio" : 8000.0,
+  "tipo" : "Soporte Técnico",
+  "proveedor" : {
+    "tipo" : "proveedor",
+    "nombre" : "Tech Supply S.A.",
+    "domicilio" : "Av. Industrial 500",
+    "dni" : "30-11223344-5",
+    "telefono" : "011-44332211",
+    "razonSocial" : "Tech Supply S.A.",
+    "cuit" : "30-11223344-5",
+    "productos" : [ ],
+    "condicionIVA" : "RESPONSABLE_INSCRIPTO"
+  },
+  "descripcion" : "Servicio: Instalación de Software (Soporte Técnico)"
+} ]

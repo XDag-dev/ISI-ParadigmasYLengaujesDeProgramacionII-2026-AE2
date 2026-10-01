@@ -1,0 +1,19 @@
+[ {
+  "tipo" : "cliente",
+  "nombre" : "Maria Gomez",
+  "domicilio" : "Av. Siempreviva 742",
+  "dni" : "20-87654321-8",
+  "telefono" : "011-55554444",
+  "limiteCredito" : 50000.0,
+  "categoria" : "REGULAR",
+  "condicionIVA" : "CONSUMIDOR_FINAL"
+}, {
+  "tipo" : "cliente",
+  "nombre" : "Donn Alejandro",
+  "domicilio" : "Km 40, Jose Sartori",
+  "dni" : "47.425.113",
+  "telefono" : "3754-561556",
+  "limiteCredito" : 800000.0,
+  "categoria" : "NUEVO",
+  "condicionIVA" : "CONSUMIDOR_FINAL"
+} ]

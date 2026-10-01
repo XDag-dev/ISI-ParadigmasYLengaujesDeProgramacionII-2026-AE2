@@ -1,0 +1,11 @@
+[ {
+  "tipo" : "proveedor",
+  "nombre" : "Tech Supply S.A.",
+  "domicilio" : "Av. Industrial 500",
+  "dni" : "30-11223344-5",
+  "telefono" : "011-44332211",
+  "razonSocial" : "Tech Supply S.A.",
+  "cuit" : "30-11223344-5",
+  "productos" : [ ],
+  "condicionIVA" : "RESPONSABLE_INSCRIPTO"
+} ]
